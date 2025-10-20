@@ -6,6 +6,53 @@
   <title>Desinix AI</title>
   <link rel="icon" href="https://i.ibb.co/5hfrKF7t/loogo.png" type="image/png">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Search bar style */
+    .search-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    .search-section input {
+      width: 60%;
+      max-width: 400px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      outline: none;
+    }
+
+    .search-section button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background: #0078ff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-section button:hover {
+      background: #005fd1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9em;
+      color: #aaa;
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -38,6 +85,12 @@
       <button id="sendBtn">➤</button>
     </div>
   </main>
+
+  <!-- Search Bar just above footer -->
+  <div class="search-section">
+    <input type="text" id="searchInput" placeholder="Search conversations..." />
+    <button id="searchBtn">Search</button>
+  </div>
 
   <footer class="footer">
     <p>© 2025 Desinix AI — Built by Desinix Founders</p>
