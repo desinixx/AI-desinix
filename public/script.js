@@ -2,7 +2,6 @@ const $ = (sel) => document.querySelector(sel);
 const messagesEl = $("#messages");
 const inputEl = $("#userInput");
 const sendBtn = $("#sendBtn");
-const systemPromptEl = $("#systemPrompt");
 const exportBtn = $("#exportBtn");
 const deleteHistoryBtn = $("#deleteHistory");
 const historyList = $("#historyList");
@@ -22,22 +21,25 @@ function save() {
   if (currentThreadId) localStorage.setItem("desinix_current_thread", currentThreadId);
 }
 
+// ✅ Markdown-friendly render
 function render() {
   messagesEl.innerHTML = "";
   for (const m of messages) {
     const item = document.createElement("div");
     item.className = "message";
+
+    const formatted = m.content
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")  // bold
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")              // italic
+      .replace(/\n/g, "<br>");                           // line breaks
+
     item.innerHTML = `
       <div class="role">${m.role === "user" ? "You" : "Desinix"}</div>
-      <div class="bubble">${escapeHtml(m.content)}</div>
+      <div class="bubble">${formatted}</div>
     `;
     messagesEl.appendChild(item);
   }
   messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-function escapeHtml(str) {
-  return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
 async function send() {
@@ -48,12 +50,11 @@ async function send() {
   inputEl.value = "";
   render(); save();
 
-  const systemPrompt = systemPromptEl.value || "";
   try {
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages, systemPrompt })
+      body: JSON.stringify({ messages })
     });
 
     if (!res.ok) {
