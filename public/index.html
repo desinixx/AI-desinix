@@ -9,32 +9,34 @@
 </head>
 <body>
   <header class="topbar">
+    <button id="menuBtn" class="menu-btn">☰</button>
     <div class="logo"><span>Desinix</span> AI</div>
     <button id="newChatBtn" class="btn tiny primary">+ New Chat</button>
   </header>
 
-  <main class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar glass">
-      <h3>Chat History</h3>
-      <ul id="historyList"></ul>
-      <div style="display:flex; gap:8px; margin-top:10px;">
-        <button id="deleteHistory" class="btn tiny">Clear All</button>
-        <button id="exportBtn" class="btn tiny">Export</button>
-      </div>
-    </aside>
+  <!-- Sidebar -->
+  <aside class="sidebar glass" id="sidebar">
+    <h3>Chat History</h3>
+    <ul id="historyList"></ul>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <button id="deleteHistory" class="btn tiny">Clear All</button>
+      <button id="exportBtn" class="btn tiny">Export</button>
+    </div>
+  </aside>
 
-    <!-- Chat Section -->
-    <section class="chat glass">
-      <div id="messages" class="messages"></div>
-      <div id="loadingIndicator" class="loading" style="display:none;">
-        <div class="spinner"></div> Desinix is thinking...
-      </div>
-      <div class="composer">
-        <textarea id="userInput" placeholder="Type your message..." rows="2"></textarea>
-        <button id="sendBtn">➤</button>
-      </div>
-    </section>
+  <!-- Overlay for sidebar click-close -->
+  <div id="overlay"></div>
+
+  <!-- Chat Section -->
+  <main class="chat">
+    <div id="messages" class="messages"></div>
+    <div id="loadingIndicator" class="loading" style="display:none;">
+      <div class="thinking">Desinix is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+    </div>
+    <div class="composer">
+      <textarea id="userInput" placeholder="Type your message..." rows="2"></textarea>
+      <button id="sendBtn">➤</button>
+    </div>
   </main>
 
   <footer class="footer">
