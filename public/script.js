@@ -7,6 +7,9 @@ const deleteHistoryBtn = $("#deleteHistory");
 const historyList = $("#historyList");
 const newChatBtn = $("#newChatBtn");
 const loadingIndicator = $("#loadingIndicator");
+const menuBtn = $("#menuBtn");
+const sidebar = $("#sidebar");
+const overlay = $("#overlay");
 
 let messages = JSON.parse(localStorage.getItem("desinix_chat_messages") || "[]");
 let history = JSON.parse(localStorage.getItem("desinix_chat_history") || "[]");
@@ -21,31 +24,23 @@ function save() {
   if (currentThreadId) localStorage.setItem("desinix_current_thread", currentThreadId);
 }
 
-// Render messages with markdown
 function render() {
   messagesEl.innerHTML = "";
   for (const m of messages) {
     const item = document.createElement("div");
-    item.className = "message";
+    item.className = `message ${m.role}`;
     const formatted = m.content
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
-    item.innerHTML = `
-      <div class="role">${m.role === "user" ? "You" : "Desinix"}</div>
-      <div class="bubble">${formatted}</div>
-    `;
+    item.innerHTML = formatted;
     messagesEl.appendChild(item);
   }
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function showLoading() {
-  loadingIndicator.style.display = "flex";
-}
-function hideLoading() {
-  loadingIndicator.style.display = "none";
-}
+function showLoading() { loadingIndicator.style.display = "block"; }
+function hideLoading() { loadingIndicator.style.display = "none"; }
 
 async function send() {
   const text = inputEl.value.trim();
@@ -63,17 +58,16 @@ async function send() {
       body: JSON.stringify({ messages })
     });
 
-    hideLoading();
-
     if (!res.ok) {
-      const err = await res.text();
-      messages.push({ role: "assistant", content: "API error: " + err });
+      hideLoading();
+      messages.push({ role: "assistant", content: "API error: " + (await res.text()) });
       render(); save();
       return;
     }
 
     const data = await res.json();
     const reply = data.text || "(No response)";
+    hideLoading();
     await typeMessage(reply);
     save();
   } catch (e) {
@@ -85,13 +79,11 @@ async function send() {
 
 async function typeMessage(text) {
   const div = document.createElement("div");
-  div.className = "message";
-  div.innerHTML = `<div class="role">Desinix</div><div class="bubble"></div>`;
+  div.className = "message assistant";
   messagesEl.appendChild(div);
+  const bubble = div;
 
-  const bubble = div.querySelector(".bubble");
   isTyping = true;
-
   for (let i = 0; i < text.length; i++) {
     bubble.innerHTML = text
       .substring(0, i + 1)
@@ -99,9 +91,8 @@ async function typeMessage(text) {
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
     messagesEl.scrollTop = messagesEl.scrollHeight;
-    await new Promise((r) => setTimeout(r, 15)); // typing speed
+    await new Promise((r) => setTimeout(r, 15));
   }
-
   messages.push({ role: "assistant", content: text });
   isTyping = false;
   messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -129,6 +120,7 @@ function renderHistory() {
       currentThreadId = item.id;
       render();
       save();
+      closeSidebar();
     };
     historyList.appendChild(li);
   }
@@ -144,7 +136,18 @@ function exportChat() {
   URL.revokeObjectURL(url);
 }
 
-// Event Listeners
+// Sidebar open/close
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+}
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+}
+
+menuBtn.addEventListener("click", openSidebar);
+overlay.addEventListener("click", closeSidebar);
 sendBtn.addEventListener("click", send);
 inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -160,7 +163,7 @@ deleteHistoryBtn.addEventListener("click", () => {
 });
 newChatBtn.addEventListener("click", newThread);
 
-// Init
+// INIT
 if (!currentThreadId) newThread();
 render();
 renderHistory();
