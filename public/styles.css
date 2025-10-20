@@ -107,6 +107,22 @@ body {
   transform: translateX(4px);
 }
 
+/* Search bar bottom of sidebar */
+#searchChat {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--text);
+  font-size: 13px;
+  margin-top: auto;
+}
+#searchChat:focus {
+  outline: none;
+  background: var(--glass-strong);
+}
+
 /* CHAT AREA */
 .chat {
   max-width: 900px;
@@ -124,7 +140,6 @@ body {
   overflow-y: auto;
   padding-bottom: 20px;
 }
-
 .message {
   max-width: 75%;
   padding: 12px 14px;
