@@ -10,22 +10,18 @@ const loadingIndicator = $("#loadingIndicator");
 const menuBtn = $("#menuBtn");
 const sidebar = $("#sidebar");
 const overlay = $("#overlay");
-const searchInput = $("#searchChat");
 
 let messages = JSON.parse(localStorage.getItem("desinix_chat_messages") || "[]");
 let history = JSON.parse(localStorage.getItem("desinix_chat_history") || "[]");
 let currentThreadId = localStorage.getItem("desinix_current_thread") || null;
 let isTyping = false;
 
-function uid() {
-  return Math.random().toString(36).slice(2, 10);
-}
+function uid() { return Math.random().toString(36).slice(2, 10); }
 
 function save() {
   localStorage.setItem("desinix_chat_messages", JSON.stringify(messages));
   localStorage.setItem("desinix_chat_history", JSON.stringify(history));
-  if (currentThreadId)
-    localStorage.setItem("desinix_current_thread", currentThreadId);
+  if (currentThreadId) localStorage.setItem("desinix_current_thread", currentThreadId);
 }
 
 function render() {
@@ -43,39 +39,29 @@ function render() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function showLoading() {
-  loadingIndicator.style.display = "block";
-}
-function hideLoading() {
-  loadingIndicator.style.display = "none";
-}
+function showLoading() { loadingIndicator.style.display = "block"; }
+function hideLoading() { loadingIndicator.style.display = "none"; }
 
 async function send() {
   const text = inputEl.value.trim();
   if (!text || isTyping) return;
 
-  // Append to existing thread for continuous context
   messages.push({ role: "user", content: text });
   inputEl.value = "";
-  render();
-  save();
+  render(); save();
   showLoading();
 
   try {
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages }), // full conversation for context
+      body: JSON.stringify({ messages })
     });
 
     if (!res.ok) {
       hideLoading();
-      messages.push({
-        role: "assistant",
-        content: "API error: " + (await res.text()),
-      });
-      render();
-      save();
+      messages.push({ role: "assistant", content: "API error: " + (await res.text()) });
+      render(); save();
       return;
     }
 
@@ -86,12 +72,8 @@ async function send() {
     save();
   } catch (e) {
     hideLoading();
-    messages.push({
-      role: "assistant",
-      content: "Network error: " + e.message,
-    });
-    render();
-    save();
+    messages.push({ role: "assistant", content: "Network error: " + e.message });
+    render(); save();
   }
 }
 
@@ -116,30 +98,22 @@ async function typeMessage(text) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function newThread(force = false) {
-  // only when user presses + New Chat
-  if (force || !currentThreadId) {
-    currentThreadId = uid();
-    if (messages.length > 0) {
-      history.unshift({
-        id: currentThreadId,
-        title:
-          messages.find((m) => m.role === "user")?.content?.slice(0, 40) ||
-          "New chat",
-        createdAt: Date.now(),
-      });
-    }
-    messages = []; // clear only for new chat
-    save();
-    render();
-    renderHistory();
-  }
+function newThread() {
+  currentThreadId = uid();
+  history.unshift({
+    id: currentThreadId,
+    title: messages.find((m) => m.role === "user")?.content?.slice(0, 40) || "New chat",
+    createdAt: Date.now()
+  });
+  messages = [];
+  save();
+  render();
+  renderHistory();
 }
 
-function renderHistory(filtered = null) {
+function renderHistory() {
   historyList.innerHTML = "";
-  const list = filtered || history;
-  for (const item of list) {
+  for (const item of history) {
     const li = document.createElement("li");
     li.textContent = item.title;
     li.onclick = () => {
@@ -153,9 +127,7 @@ function renderHistory(filtered = null) {
 }
 
 function exportChat() {
-  const blob = new Blob([JSON.stringify({ messages }, null, 2)], {
-    type: "application/json",
-  });
+  const blob = new Blob([JSON.stringify({ messages }, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -174,15 +146,6 @@ function closeSidebar() {
   overlay.classList.remove("show");
 }
 
-// Search chat history
-searchInput.addEventListener("input", (e) => {
-  const q = e.target.value.toLowerCase();
-  const filtered = history.filter((h) =>
-    h.title.toLowerCase().includes(q)
-  );
-  renderHistory(filtered);
-});
-
 menuBtn.addEventListener("click", openSidebar);
 overlay.addEventListener("click", closeSidebar);
 sendBtn.addEventListener("click", send);
@@ -198,7 +161,7 @@ deleteHistoryBtn.addEventListener("click", () => {
   save();
   renderHistory();
 });
-newChatBtn.addEventListener("click", () => newThread(true));
+newChatBtn.addEventListener("click", newThread);
 
 // INIT
 if (!currentThreadId) newThread();
