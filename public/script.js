@@ -136,7 +136,7 @@ function exportChat() {
   URL.revokeObjectURL(url);
 }
 
-// Sidebar open/close
+/* Sidebar open/close */
 function openSidebar() {
   sidebar.classList.add("open");
   overlay.classList.add("show");
@@ -163,7 +163,7 @@ deleteHistoryBtn.addEventListener("click", () => {
 });
 newChatBtn.addEventListener("click", newThread);
 
-// INIT
+/* INIT */
 if (!currentThreadId) newThread();
 render();
 renderHistory();
