@@ -15,27 +15,11 @@ chatForm.addEventListener("submit", (e) => {
 
   input.value = "";
 
-  // Simulated AI rich response
+  // Simulated AI reply
   setTimeout(() => {
     const aiMsg = document.createElement("div");
     aiMsg.className = "message assistant";
-
-    // Example: rich response (table, list, emoji, hr)
-    aiMsg.innerHTML = `
-      <p>Here’s an example of formatted output for <b>${text}</b> 👇</p>
-      <ul>
-        <li>⭐ Point 1</li>
-        <li>🔥 Point 2</li>
-        <li>🚀 Point 3</li>
-      </ul>
-      <hr>
-      <table>
-        <tr><th>Item</th><th>Value</th></tr>
-        <tr><td>Text</td><td>${text}</td></tr>
-        <tr><td>Emoji</td><td>😎</td></tr>
-        <tr><td>Status</td><td>✅ Working</td></tr>
-      </table>
-    `;
+    aiMsg.textContent = "This is a sample response for: " + text;
     chat.appendChild(aiMsg);
     chat.scrollTop = chat.scrollHeight;
   }, 600);
