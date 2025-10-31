@@ -14,7 +14,6 @@ sendBtn.addEventListener("click", () => {
   userInput.value = "";
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // Simulated AI reply
   setTimeout(() => {
     const aiMsg = document.createElement("div");
     aiMsg.className = "message ai";
