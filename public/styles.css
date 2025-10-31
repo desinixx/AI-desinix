@@ -21,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 
-/* HEADER */
+/* HEADER (fixed) */
 .topbar {
   display: flex;
   align-items: center;
@@ -30,8 +30,10 @@ body {
   background: #111;
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(10px);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
 }
 .menu-btn {
@@ -114,17 +116,21 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 75vh;
+  margin-top: 70px;   /* below fixed header */
+  margin-bottom: 60px; /* above fixed footer */
+  min-height: calc(100vh - 130px);
+  overflow-y: auto;
 }
 .messages {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-y: auto;
   padding-bottom: 20px;
+  overflow-y: auto;
 }
 
+/* MESSAGE STYLES */
 .message {
   max-width: 75%;
   padding: 12px 14px;
@@ -140,9 +146,18 @@ body {
   color: white;
   border-top-right-radius: 0;
 }
+
+/* ASSISTANT MESSAGE — NO BOX */
 .message.assistant {
   align-self: flex-start;
-  border-top-left-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 6px 0;
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
 }
 
 /* COMPOSER */
@@ -224,13 +239,19 @@ body {
   40% { opacity: 1; }
 }
 
-/* FOOTER */
+/* FOOTER (fixed) */
 .footer {
   text-align: center;
   padding: 16px;
   font-size: 13px;
   color: var(--muted);
   opacity: 0.8;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #111;
+  border-top: 1px solid var(--border);
 }
 
 /* Scrollbar */
