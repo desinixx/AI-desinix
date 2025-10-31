@@ -136,7 +136,7 @@ function exportChat() {
   URL.revokeObjectURL(url);
 }
 
-/* Sidebar */
+/* Sidebar open/close */
 function openSidebar() {
   sidebar.classList.add("open");
   overlay.classList.add("show");
