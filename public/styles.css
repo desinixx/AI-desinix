@@ -61,10 +61,9 @@ body {
 }
 
 .message {
-  max-width: 90%;
+  max-width: 85%;
   margin-bottom: 12px;
   word-wrap: break-word;
-  white-space: pre-wrap;
 }
 
 /* User message bubble */
@@ -77,45 +76,16 @@ body {
   width: fit-content;
 }
 
-/* Assistant rich text */
+/* Assistant plain text */
 .message.assistant {
   align-self: flex-start;
   background: transparent;
   border: none;
   box-shadow: none;
-  padding: 5px 0;
+  padding: 0;
   margin: 6px 0;
   color: var(--text);
-  line-height: 1.7;
-}
-
-.message.assistant ul {
-  list-style: disc;
-  margin: 8px 0 8px 25px;
-}
-
-.message.assistant table {
-  border-collapse: collapse;
-  margin: 8px 0;
-  width: 100%;
-  max-width: 400px;
-}
-
-.message.assistant th,
-.message.assistant td {
-  border: 1px solid var(--border);
-  padding: 6px 10px;
-  text-align: left;
-}
-
-.message.assistant th {
-  background: #111;
-}
-
-.message.assistant hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 10px 0;
+  line-height: 1.6;
 }
 
 /* ===== Footer (Search bar) ===== */
