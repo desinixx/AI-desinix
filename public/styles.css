@@ -1,183 +1,106 @@
+70% of storage used … If you run out of space, you can't save to Drive, back up Google Photos or use Gmail. Get 30 GB of storage for ₹59 ₹15/month for 3 months.
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 
 :root {
   /* Black and Gray Theme */
-  --bg: #000000;          
-  --panel: #111111;       
-  --border: #333333;      
+  --bg: #000000;          /* Pure Black */
+  --panel: #111111;       /* Almost Black */
+  --border: #333333;      /* Dark Gray Border */
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   
-  --user-bubble: #262626; 
+  --user-bubble: #262626; /* Dark Gray for user */
   --user-text: #ffffff;
   
   --shadow: 0 4px 20px rgba(0,0,0,0.8);
-  --composer-height: 100px;
+  --composer-height: 100px; /* Slightly taller for larger fonts */
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Clean, professional font */
   background: var(--bg);
   color: var(--text-primary);
   overflow-x: hidden;
   padding-bottom: var(--composer-height);
-  font-size: 18px;
-  -webkit-font-smoothing: antialiased;
+  font-size: 18px; /* Larger base font */
 }
 
 /* HEADER */
 .topbar {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 65px;
-  background: rgba(0, 0, 0, 0.85);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  height: 70px;
   z-index: 20;
-  display: flex;
-  justify-content: center;
 }
-
-.header-content {
-    width: 100%;
-    max-width: 900px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-}
-
 .logo {
-  font-size: 20px;
+  font-size: 22px; /* Larger logo */
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.5px;
 }
 .logo span {
-  color: var(--text-primary); /* Keeping it monochrome/white */
+  color: var(--text-secondary); /* Gray accent instead of blue */
 }
 
-/* New Chat Button Style */
-.btn-new-chat {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-.btn-new-chat:hover {
-    background: var(--panel);
-    color: var(--text-primary);
-    border-color: #555;
-}
-.mobile-text { display: none; }
-
-/* CHAT AREA (Key for centering the Welcome Message) */
+/* CHAT AREA */
 .chat {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
-  margin-top: 65px;
-  min-height: calc(100vh - 65px - var(--composer-height));
-  
-  /* Centering properties for when chat is empty */
-  justify-content: center; 
-  align-items: center;
-  text-align: center; 
+  margin-top: 70px;
+  min-height: calc(100vh - 70px - var(--composer-height));
 }
 
 .messages {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 24px; 
+  gap: 24px; /* More spacing between messages */
+  overflow-y: auto; 
   padding-bottom: 20px;
-  width: 100%; 
 }
 
-/* NEW: Welcome Message Styles */
-.welcome-message {
-    padding: 50px 20px;
-    max-width: 600px;
-    color: var(--text-secondary);
-    opacity: 0.9;
-    align-self: center;
-    /* Prevent shrinking when messages are present */
-    flex-shrink: 0; 
-}
-
-.welcome-message h1 {
-    font-size: 3.5rem; /* Very large title */
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 15px;
-    line-height: 1.1;
-}
-
-.welcome-message h1 span {
-    color: var(--text-secondary);
-}
-
-.welcome-message p {
-    font-size: 1.25rem;
-    line-height: 1.5;
-}
-
-
-/* MESSAGE STYLES (Existing) */
+/* MESSAGE STYLES */
 .message {
   line-height: 1.6;
-  font-size: 18px; 
-  word-wrap: break-word;
+  font-size: 19px; /* Larger message font */
 }
 
+/* User Message: Boxed, Dark Gray */
 .message.user {
   align-self: flex-end;
-  max-width: 85%;
-  padding: 14px 18px;
-  border-radius: 20px;
+  max-width: 80%;
+  padding: 16px 20px;
+  border-radius: 24px;
   background: var(--user-bubble);
   color: var(--user-text);
   border-bottom-right-radius: 4px;
 }
 
+/* Assistant Message: NO BOX, just text */
 .message.assistant {
   align-self: flex-start;
-  width: 100%; 
+  max-width: 100%; /* Can span wider */
   background: transparent;
   border: none;
-  padding: 0;
+  box-shadow: none;
+  padding: 0; /* No padding */
   margin: 0;
-  color: var(--text-secondary);
+  color: var(--text-secondary); /* Slightly softer white */
 }
 .message.assistant strong {
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-/* Code block handling */
-.message.assistant pre {
-    background: #151515;
-    padding: 15px;
-    border-radius: 8px;
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    font-size: 14px;
-    margin-top: 10px;
+    color: var(--text-primary); /* Bold text pops in white */
 }
 
 /* COMPOSER */
@@ -190,9 +113,8 @@ body {
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 15px;
-  padding-bottom: max(15px, env(safe-area-inset-bottom));
+  align-items: center;
+  padding: 15px 0;
   z-index: 10;
   height: auto;
   min-height: var(--composer-height);
@@ -212,7 +134,7 @@ body {
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 24px; 
+  border-radius: 30px; /* Pill shape container */
   padding: 8px 8px 8px 20px;
 }
 
@@ -223,9 +145,9 @@ body {
   color: var(--text-primary);
   padding: 10px 0;
   resize: none;
-  font-size: 16px;
+  font-size: 18px; /* Larger input font */
   line-height: 1.5;
-  max-height: 180px; 
+  max-height: 150px;
   outline: none;
 }
 .composer textarea::placeholder {
@@ -234,11 +156,11 @@ body {
 
 #sendBtn {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: none;
-  background: #333; 
+  background: #333; /* Dark Gray button */
   color: white;
   cursor: pointer;
   display: flex;
@@ -249,18 +171,22 @@ body {
 #sendBtn:hover {
   background: #555;
 }
+#sendBtn svg {
+    width: 24px;
+    height: 24px;
+}
 
-/* ANIMATION (Wave) */
+/* PROFESSIONAL ANIMATION (Wave) */
 .loading-container {
     position: absolute;
-    top: -35px;
+    top: -40px;
     left: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 .loading-text {
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -296,43 +222,10 @@ body {
 }
 *::-webkit-scrollbar-track { background: transparent; }
 
-/* MOBILE OPTIMIZATIONS */
-@media (max-width: 600px) {
+/* Mobile responsiveness */
+@media (max-width: 768px) {
   body { font-size: 16px; }
-  
-  .chat { 
-      padding: 15px 15px 0; 
-      margin-top: 60px;
-  }
-  
-  .topbar { height: 60px; }
-  .header-content { padding: 0 15px; }
-  
-  .btn-new-chat {
-      padding: 8px 12px;
-  }
-  .desktop-text { display: none; }
-  .mobile-text { display: inline; font-size: 18px; line-height: 1; }
-  
-  .message.user { 
-      max-width: 90%; 
-      font-size: 16px;
-      padding: 12px 16px;
-  }
-  
-  .message.assistant {
-      font-size: 16px;
-  }
-  
-  .composer-container { padding: 0 10px; }
-  .composer { padding: 6px 6px 6px 16px; }
-  #sendBtn { width: 40px; height: 40px; }
-  
-  /* Mobile Welcome Message Adjustments */
-  .welcome-message h1 {
-        font-size: 2.5rem; 
-  }
-  .welcome-message p {
-        font-size: 1rem;
-  }
+  .chat { padding: 10px 15px 0; }
+  .message { font-size: 17px; }
+  .message.user { max-width: 90%; }
 }
