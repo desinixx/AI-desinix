@@ -84,7 +84,7 @@ body {
 }
 .mobile-text { display: none; }
 
-/* CHAT AREA */
+/* CHAT AREA (Key for centering the Welcome Message) */
 .chat {
   max-width: 900px;
   margin: 0 auto;
@@ -93,6 +93,11 @@ body {
   flex-direction: column;
   margin-top: 65px;
   min-height: calc(100vh - 65px - var(--composer-height));
+  
+  /* Centering properties for when chat is empty */
+  justify-content: center; 
+  align-items: center;
+  text-align: center; 
 }
 
 .messages {
@@ -101,16 +106,45 @@ body {
   flex-direction: column;
   gap: 24px; 
   padding-bottom: 20px;
+  width: 100%; 
 }
 
-/* MESSAGE STYLES */
+/* NEW: Welcome Message Styles */
+.welcome-message {
+    padding: 50px 20px;
+    max-width: 600px;
+    color: var(--text-secondary);
+    opacity: 0.9;
+    align-self: center;
+    /* Prevent shrinking when messages are present */
+    flex-shrink: 0; 
+}
+
+.welcome-message h1 {
+    font-size: 3.5rem; /* Very large title */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.welcome-message h1 span {
+    color: var(--text-secondary);
+}
+
+.welcome-message p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+
+/* MESSAGE STYLES (Existing) */
 .message {
   line-height: 1.6;
   font-size: 18px; 
   word-wrap: break-word;
 }
 
-/* User Message */
 .message.user {
   align-self: flex-end;
   max-width: 85%;
@@ -121,7 +155,6 @@ body {
   border-bottom-right-radius: 4px;
 }
 
-/* Assistant Message */
 .message.assistant {
   align-self: flex-start;
   width: 100%; 
@@ -157,9 +190,9 @@ body {
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Aligns better if content grows */
+  align-items: flex-start;
   padding-top: 15px;
-  padding-bottom: max(15px, env(safe-area-inset-bottom)); /* iOS safe area */
+  padding-bottom: max(15px, env(safe-area-inset-bottom));
   z-index: 10;
   height: auto;
   min-height: var(--composer-height);
@@ -190,7 +223,7 @@ body {
   color: var(--text-primary);
   padding: 10px 0;
   resize: none;
-  font-size: 16px; /* 16px prevents zoom on iOS */
+  font-size: 16px;
   line-height: 1.5;
   max-height: 180px; 
   outline: none;
@@ -294,4 +327,12 @@ body {
   .composer-container { padding: 0 10px; }
   .composer { padding: 6px 6px 6px 16px; }
   #sendBtn { width: 40px; height: 40px; }
+  
+  /* Mobile Welcome Message Adjustments */
+  .welcome-message h1 {
+        font-size: 2.5rem; 
+  }
+  .welcome-message p {
+        font-size: 1rem;
+  }
 }
