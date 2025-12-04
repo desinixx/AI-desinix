@@ -27,8 +27,24 @@ function scrollToBottom() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
+function displayWelcomeMessage() {
+    const welcomeHTML = `
+        <div class="welcome-message">
+            <h1>Welcome to <span>Desinix</span> AI</h1>
+            <p>Start a new conversation below. Your chat history is transient and will not be saved.</p>
+        </div>
+    `;
+    messagesEl.innerHTML = welcomeHTML;
+}
+
 function render() {
   messagesEl.innerHTML = "";
+  
+  if (messages.length === 0) {
+      displayWelcomeMessage();
+      return;
+  }
+  
   for (const m of messages) {
     const item = document.createElement("div");
     item.className = `message ${m.role}`;
@@ -156,6 +172,8 @@ inputEl.addEventListener("keydown", (e) => {
 inputEl.addEventListener("input", autoResizeTextarea);
 
 window.onload = () => {
+    // Initial render displays the welcome message since messages.length is 0
+    render();
     autoResizeTextarea();
     inputEl.focus();
 };
