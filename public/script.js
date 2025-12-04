@@ -2,6 +2,7 @@ const $ = (sel) => document.querySelector(sel);
 const messagesEl = $("#messages");
 const inputEl = $("#userInput");
 const sendBtn = $("#sendBtn");
+const newChatBtn = $("#newChatBtn");
 const loadingIndicator = $("#loadingIndicator");
 
 // No Local Storage. Data is transient.
@@ -36,6 +37,14 @@ function render() {
 
 function showLoading() { loadingIndicator.style.display = "flex"; }
 function hideLoading() { loadingIndicator.style.display = "none"; }
+
+function resetChat() {
+    messages = [];
+    messagesEl.innerHTML = "";
+    inputEl.value = "";
+    autoResizeTextarea();
+    inputEl.focus();
+}
 
 async function send() {
   const text = inputEl.value.trim();
@@ -113,6 +122,7 @@ async function typeMessage(text) {
 
 // --- Event Listeners ---
 sendBtn.addEventListener("click", send);
+newChatBtn.addEventListener("click", resetChat);
 
 inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
