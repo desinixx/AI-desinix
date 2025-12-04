@@ -3,52 +3,86 @@ html, body { height: 100%; margin: 0; }
 
 :root {
   /* Black and Gray Theme */
-  --bg: #000000;          /* Pure Black */
-  --panel: #111111;       /* Almost Black */
-  --border: #333333;      /* Dark Gray Border */
+  --bg: #000000;          
+  --panel: #111111;       
+  --border: #333333;      
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   
-  --user-bubble: #262626; /* Dark Gray for user */
+  --user-bubble: #262626; 
   --user-text: #ffffff;
   
   --shadow: 0 4px 20px rgba(0,0,0,0.8);
-  --composer-height: 100px; /* Slightly taller for larger fonts */
+  --composer-height: 100px;
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Clean, professional font */
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text-primary);
   overflow-x: hidden;
   padding-bottom: var(--composer-height);
-  font-size: 18px; /* Larger base font */
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* HEADER */
 .topbar {
-  display: flex;
-  align-items: center;
-  padding: 16px 24px;
-  background: rgba(0, 0, 0, 0.8);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 65px;
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 20;
+  display: flex;
+  justify-content: center;
 }
+
+.header-content {
+    width: 100%;
+    max-width: 900px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
 .logo {
-  font-size: 22px; /* Larger logo */
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.5px;
 }
 .logo span {
-  color: var(--text-secondary); /* Gray accent instead of blue */
+  color: var(--text-primary); /* Keeping it monochrome/white */
 }
+
+/* New Chat Button Style */
+.btn-new-chat {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.btn-new-chat:hover {
+    background: var(--panel);
+    color: var(--text-primary);
+    border-color: #555;
+}
+.mobile-text { display: none; }
 
 /* CHAT AREA */
 .chat {
@@ -57,49 +91,60 @@ body {
   padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
-  margin-top: 70px;
-  min-height: calc(100vh - 70px - var(--composer-height));
+  margin-top: 65px;
+  min-height: calc(100vh - 65px - var(--composer-height));
 }
 
 .messages {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* More spacing between messages */
-  overflow-y: auto; 
+  gap: 24px; 
   padding-bottom: 20px;
 }
 
 /* MESSAGE STYLES */
 .message {
   line-height: 1.6;
-  font-size: 19px; /* Larger message font */
+  font-size: 18px; 
+  word-wrap: break-word;
 }
 
-/* User Message: Boxed, Dark Gray */
+/* User Message */
 .message.user {
   align-self: flex-end;
-  max-width: 80%;
-  padding: 16px 20px;
-  border-radius: 24px;
+  max-width: 85%;
+  padding: 14px 18px;
+  border-radius: 20px;
   background: var(--user-bubble);
   color: var(--user-text);
   border-bottom-right-radius: 4px;
 }
 
-/* Assistant Message: NO BOX, just text */
+/* Assistant Message */
 .message.assistant {
   align-self: flex-start;
-  max-width: 100%; /* Can span wider */
+  width: 100%; 
   background: transparent;
   border: none;
-  box-shadow: none;
-  padding: 0; /* No padding */
+  padding: 0;
   margin: 0;
-  color: var(--text-secondary); /* Slightly softer white */
+  color: var(--text-secondary);
 }
 .message.assistant strong {
-    color: var(--text-primary); /* Bold text pops in white */
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Code block handling */
+.message.assistant pre {
+    background: #151515;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    margin-top: 10px;
 }
 
 /* COMPOSER */
@@ -112,8 +157,9 @@ body {
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 15px 0;
+  align-items: flex-start; /* Aligns better if content grows */
+  padding-top: 15px;
+  padding-bottom: max(15px, env(safe-area-inset-bottom)); /* iOS safe area */
   z-index: 10;
   height: auto;
   min-height: var(--composer-height);
@@ -133,7 +179,7 @@ body {
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 30px; /* Pill shape container */
+  border-radius: 24px; 
   padding: 8px 8px 8px 20px;
 }
 
@@ -144,9 +190,9 @@ body {
   color: var(--text-primary);
   padding: 10px 0;
   resize: none;
-  font-size: 18px; /* Larger input font */
+  font-size: 16px; /* 16px prevents zoom on iOS */
   line-height: 1.5;
-  max-height: 150px;
+  max-height: 180px; 
   outline: none;
 }
 .composer textarea::placeholder {
@@ -155,11 +201,11 @@ body {
 
 #sendBtn {
   flex-shrink: 0;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: none;
-  background: #333; /* Dark Gray button */
+  background: #333; 
   color: white;
   cursor: pointer;
   display: flex;
@@ -170,22 +216,18 @@ body {
 #sendBtn:hover {
   background: #555;
 }
-#sendBtn svg {
-    width: 24px;
-    height: 24px;
-}
 
-/* PROFESSIONAL ANIMATION (Wave) */
+/* ANIMATION (Wave) */
 .loading-container {
     position: absolute;
-    top: -40px;
+    top: -35px;
     left: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 .loading-text {
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -221,10 +263,35 @@ body {
 }
 *::-webkit-scrollbar-track { background: transparent; }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
+/* MOBILE OPTIMIZATIONS */
+@media (max-width: 600px) {
   body { font-size: 16px; }
-  .chat { padding: 10px 15px 0; }
-  .message { font-size: 17px; }
-  .message.user { max-width: 90%; }
+  
+  .chat { 
+      padding: 15px 15px 0; 
+      margin-top: 60px;
+  }
+  
+  .topbar { height: 60px; }
+  .header-content { padding: 0 15px; }
+  
+  .btn-new-chat {
+      padding: 8px 12px;
+  }
+  .desktop-text { display: none; }
+  .mobile-text { display: inline; font-size: 18px; line-height: 1; }
+  
+  .message.user { 
+      max-width: 90%; 
+      font-size: 16px;
+      padding: 12px 16px;
+  }
+  
+  .message.assistant {
+      font-size: 16px;
+  }
+  
+  .composer-container { padding: 0 10px; }
+  .composer { padding: 6px 6px 6px 16px; }
+  #sendBtn { width: 40px; height: 40px; }
 }
