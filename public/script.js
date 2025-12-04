@@ -1,76 +1,42 @@
+70% of storage used … If you run out of space, you can't save to Drive, back up Google Photos or use Gmail. Get 30 GB of storage for ₹59 ₹15/month for 3 months.
 const $ = (sel) => document.querySelector(sel);
 const messagesEl = $("#messages");
 const inputEl = $("#userInput");
 const sendBtn = $("#sendBtn");
-const newChatBtn = $("#newChatBtn");
 const loadingIndicator = $("#loadingIndicator");
 
-// No Local Storage.
+// No Local Storage. Data is transient.
 let messages = []; 
 let isTyping = false;
 
+// Function to automatically resize textarea
 function autoResizeTextarea() {
     inputEl.style.height = 'auto'; 
-    const newHeight = Math.min(inputEl.scrollHeight, 180);
+    const newHeight = Math.min(inputEl.scrollHeight, 150);
     inputEl.style.height = `${newHeight}px`;
-}
-
-// Smart Scroll Logic: Returns true if user is within 100px of bottom
-function isNearBottom() {
-    const threshold = 100;
-    const position = window.scrollY + window.innerHeight;
-    const height = document.documentElement.scrollHeight;
-    return height - position <= threshold;
-}
-
-function scrollToBottom() {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-}
-
-function displayWelcomeMessage() {
-    const welcomeHTML = `
-        <div class="welcome-message">
-            <h1>Welcome to <span>Desinix</span> AI</h1>
-            <p>Start a new conversation below. Your chat history is transient and will not be saved.</p>
-        </div>
-    `;
-    messagesEl.innerHTML = welcomeHTML;
 }
 
 function render() {
   messagesEl.innerHTML = "";
-  
-  if (messages.length === 0) {
-      displayWelcomeMessage();
-      return;
-  }
-  
   for (const m of messages) {
     const item = document.createElement("div");
     item.className = `message ${m.role}`;
     
+    // Simple markdown parsing
     const formatted = m.content
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
       .replace(/\n/g, "<br>");
     
     item.innerHTML = formatted;
     messagesEl.appendChild(item);
   }
+  // Scroll to bottom
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 function showLoading() { loadingIndicator.style.display = "flex"; }
 function hideLoading() { loadingIndicator.style.display = "none"; }
-
-function resetChat() {
-    if (isTyping) return;
-    messages = [];
-    render();
-    inputEl.value = "";
-    autoResizeTextarea();
-    inputEl.focus();
-}
 
 async function send() {
   const text = inputEl.value.trim();
@@ -80,7 +46,6 @@ async function send() {
   inputEl.value = "";
   autoResizeTextarea();
   render();
-  scrollToBottom(); // Force scroll on user send
   
   showLoading();
 
@@ -95,7 +60,6 @@ async function send() {
       hideLoading();
       messages.push({ role: "assistant", content: "Error: " + (await res.text()) });
       render();
-      scrollToBottom();
       return;
     }
 
@@ -108,7 +72,6 @@ async function send() {
     hideLoading();
     messages.push({ role: "assistant", content: "Connection error. Please try again." });
     render();
-    scrollToBottom();
   }
 }
 
@@ -119,48 +82,38 @@ async function typeMessage(text) {
   
   isTyping = true;
   
-  const chunkSize = 3; 
-  let shouldAutoScroll = isNearBottom();
-
+  // Faster typing for professional feel
+  const chunkSize = 2; 
+  
   for (let i = 0; i < text.length; i += chunkSize) {
-    // Check if user has scrolled away
-    shouldAutoScroll = isNearBottom();
-
     const chunk = text.substring(0, i + chunkSize);
     div.innerHTML = chunk
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
       .replace(/\n/g, "<br>");
-    
-    // Only scroll if user was already at the bottom
-    if (shouldAutoScroll) {
-        window.scrollTo(0, document.body.scrollHeight);
+      
+    // Auto-scroll logic
+    const isAtBottom = messagesEl.scrollHeight - messagesEl.scrollTop <= messagesEl.clientHeight + 100;
+    if (isAtBottom) {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
     }
     
-    await new Promise((r) => setTimeout(r, 8)); 
+    await new Promise((r) => setTimeout(r, 10)); // Faster typing
   }
   
-  // Final render to ensure HTML validity
+  // Ensure full text is set at the end
   div.innerHTML = text
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
       .replace(/\n/g, "<br>");
       
   messages.push({ role: "assistant", content: text });
-  
-  // Final scroll check
-  if (shouldAutoScroll) {
-       window.scrollTo(0, document.body.scrollHeight);
-  }
-
   isTyping = false;
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 // --- Event Listeners ---
 sendBtn.addEventListener("click", send);
-newChatBtn.addEventListener("click", resetChat);
 
 inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -172,8 +125,6 @@ inputEl.addEventListener("keydown", (e) => {
 inputEl.addEventListener("input", autoResizeTextarea);
 
 window.onload = () => {
-    // Initial render displays the welcome message since messages.length is 0
-    render();
     autoResizeTextarea();
     inputEl.focus();
 };
