@@ -13,7 +13,7 @@ html, body { height: 100%; margin: 0; }
   --user-text: #ffffff;
   
   --shadow: 0 4px 20px rgba(0,0,0,0.8);
-  --composer-height: 100px; /* Slightly taller for larger fonts */
+  --composer-height: 120px; /* Increased to accommodate Tata text */
 }
 
 body {
@@ -29,6 +29,7 @@ body {
 .topbar {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Pushes items to edges */
   padding: 16px 24px;
   background: rgba(0, 0, 0, 0.8);
   border-bottom: 1px solid var(--border);
@@ -48,6 +49,24 @@ body {
 }
 .logo span {
   color: var(--text-secondary); /* Gray accent instead of blue */
+}
+
+/* New Chat Button */
+.new-chat-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+.new-chat-btn:hover {
+    background: var(--panel);
+    color: var(--text-primary);
+    border-color: #666;
 }
 
 /* CHAT AREA */
@@ -113,7 +132,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px 0;
+  padding: 10px 0 20px 0;
   z-index: 10;
   height: auto;
   min-height: var(--composer-height);
@@ -124,6 +143,20 @@ body {
     max-width: 900px;
     padding: 0 20px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* TATA Header Style */
+.tata-header {
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    opacity: 0.7;
 }
 
 .composer {
@@ -178,7 +211,7 @@ body {
 /* PROFESSIONAL ANIMATION (Wave) */
 .loading-container {
     position: absolute;
-    top: -40px;
+    top: -30px;
     left: 20px;
     display: flex;
     align-items: center;
