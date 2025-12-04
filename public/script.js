@@ -1,4 +1,3 @@
-70% of storage used … If you run out of space, you can't save to Drive, back up Google Photos or use Gmail. Get 30 GB of storage for ₹59 ₹15/month for 3 months.
 const $ = (sel) => document.querySelector(sel);
 const messagesEl = $("#messages");
 const inputEl = $("#userInput");
