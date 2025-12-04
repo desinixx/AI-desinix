@@ -10,7 +10,6 @@
 <body>
   <header class="topbar">
     <div class="logo"><span>Desinix</span> AI</div>
-    <!-- Removed Menu Button and New Chat Button -->
   </header>
 
   <!-- Chat Section -->
@@ -18,15 +17,29 @@
     <div id="messages" class="messages"></div>
   </main>
 
-  <!-- Composer is moved into a fixed-footer for better mobile layout -->
+  <!-- Fixed Composer -->
   <footer class="fixed-footer">
     <div class="composer-container">
-        <div id="loadingIndicator" class="loading" style="display:none;">
-            <div class="thinking">Desinix is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+        <!-- Professional Loading Indicator -->
+        <div id="loadingIndicator" class="loading-container" style="display:none;">
+            <div class="loading-wave">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <span class="loading-text">Thinking...</span>
         </div>
+        
         <div class="composer">
             <textarea id="userInput" placeholder="Type your message..." rows="1"></textarea>
-            <button id="sendBtn" title="Send Message">➤</button>
+            <button id="sendBtn" title="Send Message">
+                <!-- Simple Arrow Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
         </div>
     </div>
   </footer>
