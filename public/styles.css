@@ -2,14 +2,14 @@
 html, body { height: 100%; margin: 0; }
 
 :root {
-  /* Black and Gray Theme */
-  --bg: #000000;          /* Pure Black */
-  --panel: #111111;       /* Almost Black */
-  --border: #333333;      /* Dark Gray Border */
+
+  --bg: #000000;        
+  --panel: #111111;  
+  --border: #333333;     
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   
-  --user-bubble: #262626; /* Dark Gray for user */
+  --user-bubble: #262626; 
   --user-text: #ffffff;
   
   --shadow: 0 4px 20px rgba(0,0,0,0.8);
@@ -20,21 +20,21 @@ body {
   background: var(--bg);
   color: var(--text-primary);
   font-size: 18px;
-  /* FLEX LAYOUT: This is key to keeping elements in place */
+
   display: flex;
   flex-direction: column;
   height: 100vh; 
-  overflow: hidden; /* Prevents body scroll, scrolling happens inside .messages */
+  overflow: hidden; 
 }
 
-/* HEADER */
+
 .topbar {
-  flex: 0 0 70px; /* Fixed height, doesn't shrink */
+  flex: 0 0 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: var(--bg); /* Solid background */
+  background: var(--bg); 
   border-bottom: 1px solid var(--border);
   z-index: 20;
 }
@@ -49,7 +49,7 @@ body {
   color: var(--text-secondary);
 }
 
-/* New Chat Button */
+
 .new-chat-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -67,19 +67,19 @@ body {
     border-color: #666;
 }
 
-/* CHAT AREA Wrapper */
+
 .chat {
-  flex: 1; /* Takes all remaining space between header and footer */
+  flex: 1; 
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Constraints children */
+  overflow: hidden; 
   position: relative;
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
 }
 
-/* --- NEW WELCOME MESSAGE STYLES --- */
+
 .welcome-message {
     position: absolute;
     top: 50%;
@@ -87,9 +87,9 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
     color: var(--text-secondary);
-    pointer-events: none; /* Allows clicks to pass through to the input */
+    pointer-events: none;
     z-index: 5;
-    flex-direction: column; /* Added flex direction for vertical centering */
+    flex-direction: column; 
     align-items: center;
     justify-content: center;
 }
@@ -103,27 +103,26 @@ body {
     font-size: 18px;
     margin: 0;
 }
-/* ---------------------------------- */
 
-/* SCROLLABLE MESSAGES CONTAINER */
+
 .messages {
   flex: 1;
-  overflow-y: auto; /* Scrollbar appears here */
+  overflow-y: auto; 
   padding: 20px 20px 10px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  position: relative; /* Needed for stacking context */
+  position: relative; 
   z-index: 10;
 }
 
-/* MESSAGE STYLES */
+
 .message {
   line-height: 1.6;
   font-size: 19px;
 }
 
-/* User Message */
+
 .message.user {
   align-self: flex-end;
   max-width: 80%;
@@ -134,7 +133,7 @@ body {
   border-bottom-right-radius: 4px;
 }
 
-/* Assistant Message */
+
 .message.assistant {
   align-self: flex-start;
   max-width: 100%;
@@ -148,9 +147,9 @@ body {
     color: var(--text-primary);
 }
 
-/* COMPOSER (FOOTER) */
+
 .input-area {
-  flex: 0 0 auto; /* Grows based on content height, does not shrink */
+  flex: 0 0 auto;
   background: var(--bg);
   border-top: 1px solid var(--border);
   display: flex;
@@ -171,7 +170,7 @@ body {
     align-items: center;
 }
 
-/* TATA Header Style */
+
 .tata-header {
     color: var(--text-secondary);
     font-size: 12px;
@@ -231,7 +230,7 @@ body {
     height: 24px;
 }
 
-/* LOADING ANIMATION */
+
 .loading-container {
     position: absolute;
     top: -30px;
@@ -269,7 +268,7 @@ body {
   100% { height: 5px; opacity: 0.5; }
 }
 
-/* Scrollbar Styling */
+
 *::-webkit-scrollbar { width: 6px; }
 *::-webkit-scrollbar-thumb {
   background: #333;
@@ -277,7 +276,7 @@ body {
 }
 *::-webkit-scrollbar-track { background: transparent; }
 
-/* Mobile responsiveness */
+
 @media (max-width: 768px) {
   body { font-size: 16px; }
   .chat { padding: 0; }
