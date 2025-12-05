@@ -4,8 +4,8 @@ const inputEl = $("#userInput");
 const sendBtn = $("#sendBtn");
 const newChatBtn = $("#newChatBtn");
 const loadingIndicator = $("#loadingIndicator");
+const welcomeEl = $("#welcomeMessage"); // New element selector
 
-// No Local Storage. Data is transient.
 let messages = []; 
 let isTyping = false;
 
@@ -31,7 +31,7 @@ function render() {
     item.innerHTML = formatted;
     messagesEl.appendChild(item);
   }
-  // Scroll to bottom
+  // Scroll to bottom after the message is fully rendered
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
@@ -44,11 +44,23 @@ function resetChat() {
     inputEl.value = "";
     autoResizeTextarea();
     inputEl.focus();
+    // Show welcome message on new chat
+    welcomeEl.style.display = "flex";
+}
+
+// Function to hide the welcome message (called after first user send)
+function hideWelcome() {
+    if (welcomeEl.style.display !== "none") {
+        welcomeEl.style.display = "none";
+    }
 }
 
 async function send() {
   const text = inputEl.value.trim();
   if (!text || isTyping) return;
+
+  // HIDE THE WELCOME MESSAGE ON THE FIRST SEND
+  hideWelcome();
 
   messages.push({ role: "user", content: text });
   inputEl.value = "";
@@ -100,11 +112,9 @@ async function typeMessage(text) {
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
       
-    // Auto-scroll logic targeting the messages container
-    const isAtBottom = messagesEl.scrollHeight - messagesEl.scrollTop <= messagesEl.clientHeight + 100;
-    if (isAtBottom) {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
+    // --- SCROLLING LOGIC REMOVED HERE ---
+    // The previous auto-scroll logic during typing has been commented out/removed
+    // This implements the requested change to disable auto-scroll during agent reply.
     
     await new Promise((r) => setTimeout(r, 10)); // Faster typing
   }
@@ -117,7 +127,8 @@ async function typeMessage(text) {
       
   messages.push({ role: "assistant", content: text });
   isTyping = false;
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  // Final scroll once message is complete
+  messagesEl.scrollTop = messagesEl.scrollHeight; 
 }
 
 // --- Event Listeners ---
@@ -136,4 +147,8 @@ inputEl.addEventListener("input", autoResizeTextarea);
 window.onload = () => {
     autoResizeTextarea();
     inputEl.focus();
+    // Ensure welcome message is visible on load if no initial messages exist
+    if (messages.length === 0) {
+        welcomeEl.style.display = "flex";
+    }
 };
