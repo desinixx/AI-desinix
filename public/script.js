@@ -100,7 +100,7 @@ async function typeMessage(text) {
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
       
-    // Auto-scroll logic
+    // Auto-scroll logic targeting the messages container
     const isAtBottom = messagesEl.scrollHeight - messagesEl.scrollTop <= messagesEl.clientHeight + 100;
     if (isAtBottom) {
         messagesEl.scrollTop = messagesEl.scrollHeight;
