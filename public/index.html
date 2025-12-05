@@ -3,36 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desinix AI — AI tools & Chat by Desinix</title>
+  <title>Desinix AI — Smart AI Chat by Desinix</title>
 
-
-  <meta name="description" content="Desinix AI — AI chat and tools created by Desinix. Fast, simple and smart AI assistant." />
-  <meta name="keywords" content="Desinix, Desinix AI, AI chat, AI assistant" />
+  <!-- SEO -->
+  <meta name="description" content="Desinix AI — A fast, simple and powerful AI chat created by Desinix. Ask anything and get instant answers." />
+  <meta name="keywords" content="Desinix AI, AI chat, Desinix, ai.desinix.co.in, AI assistant, smart AI" />
   <meta name="robots" content="index, follow" />
 
-
+  <!-- Canonical -->
   <link rel="canonical" href="https://ai.desinix.co.in/" />
 
-
-  <meta property="og:title" content="Desinix AI — AI tools & Chat by Desinix">
-  <meta property="og:description" content="Desinix AI — AI chat and smart tools by Desinix.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Desinix AI — Smart AI Chat by Desinix">
+  <meta property="og:description" content="Chat with Desinix AI — A smart AI assistant created by Desinix.">
   <meta property="og:image" content="https://i.ibb.co/5hfrKF7t/loogo.png">
   <meta property="og:url" content="https://ai.desinix.co.in/">
   <meta property="og:type" content="website">
 
-  
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Desinix AI — Chat with Desinix AI">
-  <meta name="twitter:description" content="Desinix AI — smart AI tools by Desinix.">
+  <meta name="twitter:title" content="Desinix AI — Smart AI Chat">
+  <meta name="twitter:description" content="Desinix AI — a powerful AI assistant created by Desinix.">
   <meta name="twitter:image" content="https://i.ibb.co/5hfrKF7t/loogo.png">
 
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.ibb.co/5hfrKF7t/loogo.png" type="image/png">
 
-  <link rel="icon" href="https://i.ibb.co/5hfrKF7t/loogo.png">
-
-
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-
-
+  <!-- JSON-LD Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,54 +40,61 @@
       "@type": "Organization",
       "name": "Desinix",
       "logo": "https://i.ibb.co/5hfrKF7t/loogo.png"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://ai.desinix.co.in/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
   }
   </script>
+
+  <!-- YOUR ORIGINAL CSS -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-
   <header class="topbar">
     <div class="logo"><span>Desinix</span> AI</div>
-    <div>
-      <a href="https://desinix.co.in/">desinix.co.in</a>
-      <button id="newChatBtn">New Chat</button>
-    </div>
+    <button id="newChatBtn" class="new-chat-btn">New Chat</button>
   </header>
 
   <main class="chat">
-    <div id="welcomeMessage">
+    <div id="welcomeMessage" class="welcome-message" style="display:none;">
       <h1>Welcome to Desinix AI</h1>
-      <p>Ask anything — our AI is here to help.</p>
+      <p>How can I assist you today?</p>
     </div>
-
-    <div id="messages"></div>
+    <div id="messages" class="messages"></div>
   </main>
 
   <footer class="input-area">
     <div class="composer-container">
-      <textarea id="userInput" placeholder="Type your message..."></textarea>
-      <button id="sendBtn">Send</button>
+        <div class="tata-header">desinix.co.in</div>
+
+        <div id="loadingIndicator" class="loading-container" style="display:none;">
+            <div class="loading-wave">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <span class="loading-text">Thinking...</span>
+        </div>
+        
+        <div class="composer">
+            <textarea id="userInput" placeholder="Type your message..." rows="1"></textarea>
+            <button id="sendBtn" title="Send Message">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     </div>
   </footer>
-
-  <script>
-    const sendBtn = document.getElementById("sendBtn");
-    const input = document.getElementById("userInput");
-    const messages = document.getElementById("messages");
-    const welcome = document.getElementById("welcomeMessage");
-
-    sendBtn.onclick = () => {
-      let text = input.value.trim();
-      if (!text) return;
-      welcome.style.display = "none";
-      let div = document.createElement("div");
-      div.textContent = "You: " + text;
-      messages.appendChild(div);
-      input.value = "";
-    };
-  </script>
-
+  
+  <!-- YOUR ORIGINAL JS -->
+  <script src="script.js"></script>
 </body>
 </html>
