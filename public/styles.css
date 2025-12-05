@@ -79,6 +79,32 @@ body {
   margin: 0 auto;
 }
 
+/* --- NEW WELCOME MESSAGE STYLES --- */
+.welcome-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-secondary);
+    pointer-events: none; /* Allows clicks to pass through to the input */
+    z-index: 5;
+    flex-direction: column; /* Added flex direction for vertical centering */
+    align-items: center;
+    justify-content: center;
+}
+.welcome-message h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+.welcome-message p {
+    font-size: 18px;
+    margin: 0;
+}
+/* ---------------------------------- */
+
 /* SCROLLABLE MESSAGES CONTAINER */
 .messages {
   flex: 1;
@@ -87,6 +113,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative; /* Needed for stacking context */
+  z-index: 10;
 }
 
 /* MESSAGE STYLES */
